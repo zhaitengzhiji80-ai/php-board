@@ -6,16 +6,16 @@ on:
             - "*"
     pull_request:
             
-    jobs:
-        test:
-            runs-on: ubuntu-latest
+jobs:
+    test:
+        runs-on: ubuntu-latest
 
-            steps:
-                - name: Checkout repository
-                  uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-                - name: Build Docker image
-                  run: docker compose build
+            - name: Build Docker image
+              run: docker compose build
 
-                - name: Run PHP tests
-                  run: docker compose run --rm php php tests/BoardServiceTest.php
+            - name: Run PHP tests
+              run: docker compose run --rm php php tests/BoardServiceTest.php
