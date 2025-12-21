@@ -1,4 +1,9 @@
 FROM php:8.2-apache
-COPY . /home/ec2-user/php-board/src/
-EXPOSE 80
 
+# DocumentRoot を直接書き換える
+RUN sed -ri \
+    -e 's!/var/www/html!/var/www/html/public!g' \
+    /etc/apache2/sites-available/*.conf \
+    /etc/apache2/apache2.conf
+
+RUN docker-php-ext-install pdo
