@@ -1,19 +1,21 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - "*"
-  pull_request:
+    push:
+        branches:
+            - "*"
+            pull_request:
+            
+    jobs:
+        test:
+            runs-on: ubuntu-latest
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+            steps:
+                - name: Checkout repository
+                  uses: actions/checkout@v4
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+                - name: Build Docker image
+                  run: docker compose build
 
-      - name: Build Docker image
-        run: docker build -t php-board ./docker/php
-
+                - name: Run PHP tests
+                  run: docker compose run --rm php php tests/BoardServiceTest.php
