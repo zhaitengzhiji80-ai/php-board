@@ -15,7 +15,7 @@ $service->add('test1');
 $service->add('test2');
 $data = $service->all();
 
-if ($data === ['test1', 'test2']) {
+if ($data !== ['test1', 'test2']) {
     echo "テスト失敗: add() returned false\n";
     exit(-1);
 }
@@ -24,7 +24,7 @@ if ($data === ['test1', 'test2']) {
 $service->delete(0);
 $data = $service->all();
 
-if ($data !== ['test2']) {
+if ($data === ['test2']) {
     echo "テスト失敗: delete() returned false\n";
     exit(1);
 }
