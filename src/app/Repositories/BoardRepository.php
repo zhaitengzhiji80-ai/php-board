@@ -9,9 +9,9 @@ class BoardRepository
         $env = getenv('APP_ENV') ?: 'production';
 
         if ($env === 'testing') {
-            $this->filePath = __DIR__ . '/../../storage/testing/data.txt';
+            $this->filePath = __DIR__ . '/../storage/testing/data.txt';
         } else {
-            $this->filePath = __DIR__ . '/../../storage/testing/data.txt';
+            $this->filePath = __DIR__ . '/../storage/testing/data.txt';
         }
     }
 
