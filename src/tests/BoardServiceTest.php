@@ -1,14 +1,15 @@
 <?php
+putenv('APP_ENV = testing');
 
 require_once __DIR__ . '/../app/Services/BoardService.php';
 
-$testFile = __DIR__ . '/test_data.txt';
+$testFile = __DIR__ . '../storage/testing/data.txt';
 
 if (file_exists($testFile)) {
     unlink($testFile);
 }
 
-$service = new BoardService($testFile);
+$service = new BoardService();
 
 // 追加テスト
 $service->add('test1');

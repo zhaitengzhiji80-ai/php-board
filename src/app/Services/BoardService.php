@@ -1,27 +1,32 @@
 <?php
 
-class BoardService{
-    private string $file;
+require_once __DIR__ . '/../Repositories/BoardRepository.php';
 
-    public function __construct(string $file = null) {
-        $this->file = $file ?? __DIR__ . '/../../storage/data.txt';
+class BoardService
+{
+    private BoardRepository $repository;
+
+    public function __construct()
+    {
+        $this->repository = new Boardrepository();
     }
 
-    public function all(): array {
-        return file_exists($this -> file) 
-            ? file($this->file, FILE_IGNORE_NEW_LINES)
-            : [];
+    public function all(): array
+    {
+        return $this->repository->all();
     }
 
-    public function add(string $text): void {
-        file_put_contents($this->file, $text . PHP_EOL, FILE_APPEND);
-    }
-
-    public function delete(int $index): void {
-        $lines = $this -> all();
-        if (isset($lines[$index])) {
-            unset($lines[$index]);
-            file_put_contents($this->file, implode(PHP_EOL, $lines) . PHP_EOL);
+    public function add(string $text): bool
+    {
+        if (trim($text) === '') {
+            return false;
         }
+
+        return $this->repository->add($text);
+    }
+
+    public function delete(int $index): bool
+    {
+        return $this->repository->delete($index);
     }
 }
