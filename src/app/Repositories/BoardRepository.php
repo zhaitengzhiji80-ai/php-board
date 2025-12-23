@@ -13,6 +13,11 @@ class BoardRepository
         } else {
             $this->filePath = __DIR__ . '/../../storage/testing/data.txt';
         }
+
+        $dir = dirname($this->filePath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
     }
 
     public function all(): array
