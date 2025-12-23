@@ -2,28 +2,42 @@
 
 require_once __DIR__ . '/../Services/BoardService.php';
 
-class BoardController {
+class BoardController
+{
     private BoardService $service;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->service = new BoardService();
     }
 
-    public function handle(): array {
+    public function handle(): array
+    {
         $action = $_POST['action'] ?? '';
 
         if ($action === 'add') {
-            $text = trim($_POST['text' ?? '']);
-            if ($text !== '') {
-                $this->service->add($text);
-            }
+            $this->add();
         }
 
         if ($action === 'delete') {
-            $index = (int)($_POST['idx'] ?? -1);
-            $this->service->delete($index);
+            $this->delete();
         }
 
         return $this->service->all();
+    }
+
+    private function add(): void
+    {
+        $text = trim($_POST['text'] ?? '');
+        if ($text === '') {
+            return;
+        }
+        $this->service->add($text);
+    }
+
+    private function delete(): void
+    {
+        $index = (int)($_POST['idx'] ?? -1);
+        $this->service->delete($index);
     }
 }

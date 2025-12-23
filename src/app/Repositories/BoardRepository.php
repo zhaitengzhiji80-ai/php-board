@@ -11,7 +11,7 @@ class BoardRepository
         if ($env === 'testing') {
             $this->filePath = __DIR__ . '/../../storage/testing/data.txt';
         } else {
-            $this->filePath = __DIR__ . '/../../storage/testing/data.txt';
+            $this->filePath = __DIR__ . '/../../storage/production/data.txt';
         }
 
         $dir = dirname($this->filePath);
