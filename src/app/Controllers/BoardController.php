@@ -28,10 +28,7 @@ class BoardController
 
     private function add(): void
     {
-        $text = trim($_POST['text'] ?? '');
-        if ($text === '') {
-            return;
-        }
+        $text = $_POST['text'] ?? '';
         $this->service->add($text);
     }
 

@@ -18,7 +18,8 @@ class BoardService
 
     public function add(string $text): bool
     {
-        if (trim($text) === '') {
+        trim($text) === '';
+        if ($text === '') {
             return false;
         }
 
@@ -27,6 +28,9 @@ class BoardService
 
     public function delete(int $index): bool
     {
+        if ($index < 0) {
+            return false;
+        }
         return $this->repository->delete($index);
     }
 }
