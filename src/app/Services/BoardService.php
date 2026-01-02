@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/BoardRepository.php';
+require_once __DIR__ . '/../Repositories/RepositoryFactory.php';
 
 class BoardService
 {
-    private BoardRepository $repository;
+    private $repository;
 
     public function __construct()
     {
-        $this->repository = new Boardrepository();
+        $this->repository = RepositoryFactory::createBoardRepository();
     }
 
     public function all(): array
@@ -16,21 +16,75 @@ class BoardService
         return $this->repository->all();
     }
 
-    public function add(string $text): bool
+    public function add(string $text): array
     {
-        trim($text) === '';
-        if ($text === '') {
-            return false;
+        if (trim($text) === '') {
+            return [
+                'success' => false,
+                'message' => '内容が空です'
+            ];
         }
 
-        return $this->repository->add($text);
+        $result =  $this->repository->add($text);
+
+        if ($result == FALSE) {
+            return [
+                'success' => false,
+                'message' => '保存に失敗しました'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => ''
+        ];
     }
 
-    public function delete(int $index): bool
+    public function update(int $id, string $content): array
+    {
+        if (trim($content) === '') {
+            return [
+                'success' => false,
+                'message' => '内容が空です'
+            ];
+        }
+
+        $result = $this->repository->update($id, $content);
+
+        if ($result == FALSE) {
+            return [
+                'success' => false,
+                'message' => '保存に失敗しました'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => ''
+        ];
+    }
+
+    public function delete(int $index): array
     {
         if ($index < 0) {
-            return false;
+            return [
+                'success' => false,
+                'message' => '不正なIDです'
+            ];
         }
-        return $this->repository->delete($index);
+
+        $result = $this->repository->delete($index);
+
+        if ($result == FALSE) {
+            return [
+                'success' => false,
+                'message' => '削除に失敗しました'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => ''
+        ];
     }
 }

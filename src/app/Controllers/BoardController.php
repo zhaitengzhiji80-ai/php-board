@@ -14,27 +14,61 @@ class BoardController
     public function handle(): array
     {
         $action = $_POST['action'] ?? '';
+        $error = '';
 
         if ($action === 'add') {
-            $this->add();
+            $result = $this->add();
+        }
+
+        if ($action === 'update') {
+            $result = $this->update();
         }
 
         if ($action === 'delete') {
-            $this->delete();
+            $result = $this->delete();
         }
 
-        return $this->service->all();
+        if ($result['success'] == FALSE) {
+            $error = $result['message'];
+        }
+
+        return [
+            'posts' => $this->service->all(),
+            'error' => $error,
+        ];
     }
 
-    private function add(): void
+    private function add(): array
     {
-        $text = $_POST['text'] ?? '';
-        $this->service->add($text);
+        try {
+            $text = $_POST['text'] ?? '';
+            return $this->service->add($text);
+        } catch (\Throwable $e) {
+            throw $e;
+            return [];
+        }
     }
 
-    private function delete(): void
+    private function update(): array
     {
-        $index = (int)($_POST['idx'] ?? -1);
-        $this->service->delete($index);
+        try {
+            $id = (int)($_POST['idx'] ?? 0);
+            $text = $_POST['text'] ?? '';
+            return $this->service->update($id, $text);
+        } catch (\Throwable $e) {
+            throw $e;
+            return [];
+        }
+    }
+
+    private function delete(): array
+    {
+        try {
+            $index = (int)($_POST['idx'] ?? 0);
+            return $this->service->delete($index);
+        } catch (\Throwable $e) {
+            throw $e;
+            return [];
+        }
     }
 }

@@ -5,7 +5,30 @@ services:
         build:
             context: .
             dockerfile: docker/php/Dockerfile
+        environment:
+            STORAGE_DRIVER: pgsql
+            DB_HOST: db
+            DB_NAME: board
+            DB_USER: board_user
+            DB_PASS: board_pass            
         ports:
             - "8080:80"
         volumes:
             - ./src:/var/www/html
+        depends_on:
+            - db
+
+    db:
+        image: postgres:16
+        container_name: php-board-db
+        environment:
+            POSTGRES_DB: board
+            POSTGRES_USER: board_user
+            POSTGRES_PASSWORD: board_pass
+        ports:
+            - "5432:5432"
+        volumes:
+            - db-data:/var/lib/postgresql/data
+    
+volumes:
+        db-data:

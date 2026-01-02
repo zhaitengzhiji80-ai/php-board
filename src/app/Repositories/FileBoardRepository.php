@@ -1,6 +1,6 @@
 <?php
 
-class BoardRepository
+class FileBoardRepository
 {
     private string $filePath;
 
